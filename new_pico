@@ -1,0 +1,91 @@
+#!/bin/bash
+
+
+# Read the default config
+source <(grep -E '^[A-Z_]+=.*' ./new_pico.cfg)
+
+
+# Parse options manually
+while [[ "$1" == -* ]]; do
+  case "$1" in
+    -c|--use_c)
+      USE_CPP=OFF
+      shift
+      ;;
+    -n|--no_vscode)
+      LAUNCH_VSCODE=false
+      shift
+      ;;
+    -t|--template_path)
+      shift
+      TEMPLATE_REPO="$1"
+      shift
+      ;;
+    -h|--help)
+      echo "Usage: new_pico [options] <project_name>"
+      echo ""
+      echo "Options:"
+      echo "  -h, --help           Show this help text"
+      echo "  -c, --use_c          Use C instead of C++ for the project"
+      echo "  -n, --no_vscode      Do not launch Visual Studio Code"
+      echo "  -t, --template_path  Set an alternative template path"
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
+
+echo $NEW_PROJECT
+
+# Check for project name
+if [ -z "$1" ]; then
+  echo "Usage: $0 [-c|--use_c] [-n|--no_vscode] [-t|--template_path <path>] <new_project_name>"
+  exit 1
+fi
+
+# Config
+NEW_PROJECT="$1"
+TARGET_DIR="$PWD/$NEW_PROJECT"
+
+# Ensure ~/Projects exists
+mkdir -p ~/Projects
+
+# Check template path
+if [ ! -d "$TEMPLATE_REPO" ]; then
+  echo "Template not found at $TEMPLATE_REPO"
+  echo "Cloning default template from GitHub..."
+  git clone "$TEMPLATE_REPO"
+fi
+
+if [ ! -f "$TEMPLATE_REPO/CMakeLists.txt" ]; then
+  echo "Template folder exists but doesn't contain a valid Pico project."
+  exit 1
+fi
+
+# Clone the template
+git clone "$TEMPLATE_REPO" "$TARGET_DIR"
+
+# Rename internal references
+cd "$TARGET_DIR"
+find . -type f -exec sed -i "s/pico_project_template/$NEW_PROJECT/g" {} +
+find . -type f -exec sed -i "s/pico-project-template/$NEW_PROJECT/g" {} +
+
+# Rename workspace file
+mv pico-project_template.code-workspace "$NEW_PROJECT.code-workspace"
+
+# Create build system
+cmake -S . -B build -G "Unix Makefiles" -DUSE_CPP=$USE_CPP
+
+# Create git repository
+rm -rf .git
+git init
+git add .
+git commit -m "New project ${NEW_PROJECT} started. Initial commit."
+
+# Launch VSCode if requested
+if [ "$LAUNCH_VSCODE" = true ]; then
+  code "$NEW_PROJECT.code-workspace"
+fi
