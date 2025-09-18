@@ -16,7 +16,7 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 - Raspberry Pi Pico SDK installed
 - VSCode installed
 - Template repo available at `~/Projects/pico-project-template` (or modify the script to point elsewhere)
-
+- `new_pico.cfg` A basic configuration file (described below) 
 ## 🔧 Usage
 
 ```bash
@@ -29,3 +29,14 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 | `--use_c`          | `-c`  | Use C instead of C++ for the project        |
 | `--no_vscode`      | `-n`  | Do not launch Visual Studio Code            |
 | `--template_path`  | `-t`  | Set an alternative template path            |
+
+## Files
+`new_pico.cfg`
+### Variables
+| Name            | Description                         |
+|-----------------|-------------------------------------|
+| TEMPLATE_REPO   | github repository                   |
+| TEMPLATE_CACHE  | local template repository directory |
+| TEMPLATE_FOLDER | name of the product directory       |
+| USE_CPP         | use C++ (on) or C (off)             |
+| LAUNCH_VSCODE   | launch VSCode with the project      |
