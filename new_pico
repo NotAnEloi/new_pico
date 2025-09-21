@@ -1,9 +1,15 @@
 #!/bin/bash
 
-
 # Read the default config
-source <(grep -E '^[A-Z_]+=.*' ./new_pico.cfg)
+echo "$0"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+if [ ! -f "$SCRIPT_DIR/new_pico.cfg" ]; then
+  echo "Missing config file: $SCRIPT_DIR/new_pico.cfg"
+  exit 1
+fi
+
+source <(grep -E '^[A-Z_]+=.*' "$SCRIPT_DIR/new_pico.cfg")
 
 # Parse options manually
 while [[ "$1" == -* ]]; do
@@ -40,15 +46,17 @@ done
 
 NEW_PROJECT=$1 
 
-echo "--> New project $NEW_PROJECT"
+if [ -d "$NEW_PROJECT" ]; then
+  echo "Project '$NEW_PROJECT' already exists. Aborting."
+  exit 1
+fi
+
 
 # Check for project name
 if [ -z "$1" ]; then
   echo "Usage: $0 [-c|--use_c] [-n|--no_vscode] [-t|--template_path <path>] <new_project_name>"
   exit 1
 fi
-
-# Config
 
 TARGET_DIR="$TEMPLATE_CACHE$NEW_PROJECT"
 echo "--> Target dir    $TARGET_DIR"
