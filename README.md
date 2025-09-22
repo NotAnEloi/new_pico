@@ -20,8 +20,9 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 
 ## 🔧 Usage
 
-```bash
-./new_pico <project_name>
+```bash```
+
+`./new_pico <project_name>`
 ### Options
 
 | Flag               | Alias | Description                                 |
