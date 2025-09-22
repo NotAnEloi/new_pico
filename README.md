@@ -51,7 +51,9 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 ## 🔧 Workflow example
 
 # Step 1. Create a new project
-`new_pico blink_test`
+```
+new_pico blink_test
+```
 
 "blink_test" is just an example name.
 
@@ -64,6 +66,8 @@ cmake --build build
 
 # Step 3. Put the compiled file on the RPi 2040 device
 Connect the RPi 2040 device via USB and hold the BOOTSEL switch
-`build/blink_test.uf2 /media/$USER/RPI-RP2/`
+```
+build/blink_test.uf2 /media/$USER/RPI-RP2/
+```
 
 "/media/$USER/RPI-RP2" is just an example path for the directory.
