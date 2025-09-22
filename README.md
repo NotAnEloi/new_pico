@@ -25,7 +25,7 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 `./new_pico <project_name>`
 ### Options
 
-| Flag               | Alias | Description                                 |
+| Flag               | Short | Description                                 |
 |--------------------|-------|---------------------------------------------|
 | `--help`           | `-h`  | Show this help text                         |
 | `--use_c`          | `-c`  | Use C instead of C++ for the project        |
