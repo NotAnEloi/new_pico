@@ -18,6 +18,10 @@ while [[ "$1" == -* ]]; do
       USE_CPP=OFF
       shift
       ;;
+    -f|--force)
+      FORCE_CLONE=true
+      shift
+      ;;
     -n|--no_vscode)
       LAUNCH_VSCODE=false
       shift
@@ -68,10 +72,11 @@ if [ ! -d "$TEMPLATE_CACHE" ]; then
 fi
 
 #check the target dir
-if [ ! -d "$TARGET_DIR" ]; then
+if [ "$FORCE_CLONE" = true ] || [ ! -d "$TARGET_DIR" ]; then
   echo "Template not found at $TARGET_DIR"
   echo "Cloning default template from GitHub..."
 # Clone the template
+  rm -rf "$TARGET_DIR"
   git clone "$TEMPLATE_REPO" "$TARGET_DIR"
 else
   echo "Templates found at $TARGET_DIR"
