@@ -56,9 +56,9 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 "blink_test" is just an example name.
 
 # Srep 2. Build the projects
-`cd blink_test`
-`cmake -S . -B build`
-`cmake --build build`
+```cd blink_test
+cmake -S . -B build
+cmake --build build```
 
 # Step 3. Put the compiled file on the RPi 2040 device
 Connect the RPi 2040 device via USB and hold the BOOTSEL switch
