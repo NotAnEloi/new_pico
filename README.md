@@ -57,7 +57,7 @@ new_pico blink_test
 
 "blink_test" is just an example name.
 
-# Srep 2. Build the projects
+# Step 2. Build the projects
 ```
 cd blink_test
 cmake -S . -B build
