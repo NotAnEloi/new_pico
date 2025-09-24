@@ -101,7 +101,7 @@ rm -rf build
 mv pico-project_template.code-workspace "$NEW_PROJECT.code-workspace"
 
 # Create build system
-cmake -S . -B build -G "Unix Makefiles" -DUSE_CPP="$USE_CPP"
+cmake -S . -B build -G "Unix Makefiles" -DUSE_CPP="$USE_CPP" -DPICO_SDK_PATH="$PICO_SDK_PATH"
 
 # Create git repository
 rm -rf .git
