@@ -63,7 +63,7 @@ fi
 
 # Check for project name
 if [ -z "$1" ]; then
-  echo "Usage: $0 [-c|--use_c] [-n|--no_vscode] [-t|--template_path <path>] <new_project_name>"
+  echo "Usage: $0 [-c|--use_c] [-f|--force] [-n|--no_vscode] [-s|--no_sdk_check] [-t|--template_path <path>] <new_project_name>"
   exit 1
 fi
 
@@ -93,47 +93,61 @@ if [ ! -f "$TARGET_DIR/CMakeLists.txt" ]; then
 fi
 
 # Clone the template
+echo "Cloning project $NEW_PROJECT"
 git clone "$TARGET_DIR" "$NEW_PROJECT"
 
 # Rename internal references
-echo "--> $NEW_PROJECT"
-cd "$NEW_PROJECT"
+cd "$NEW_PROJECT" || { echo "Failed to enter folder $NEW_PROJECT "; exit; }
 find . -type f -exec sed -i "s/pico_project_template/$NEW_PROJECT/g" {} +
 find . -type f -exec sed -i "s/pico-project-template/$NEW_PROJECT/g" {} +
-rm -rf build
-
-# Rewrite a dummy README.md
-echo "# $NEW_PROJECT" > README.md
-echo "" >> README.md
-echo "$README_INFO" >> README.md
 
 # Rename workspace file
 mv pico-project_template.code-workspace "$NEW_PROJECT.code-workspace"
 
+# Rewrite a dummy README.md
+echo "Resetting README.md"
+echo "# $NEW_PROJECT" > README.md
+echo "" >> README.md
+echo "$README_INFO" >> README.md
+
 # Create build system
+echo "Creating build system"
 cmake -S . -B build -G "Unix Makefiles" -DUSE_CPP="$USE_CPP" -DPICO_SDK_PATH="$PICO_SDK_PATH"
+rm -rf build
 
 # Create git repository
+echo "Creating git repository"
 rm -rf .git
 git init
 git add .
 git commit -m "New project $NEW_PROJECT started. Initial commit."
 
 # Verify the Raspberry Pi Pico SDK is installed
+echo "Verify Raspberry Pi Pico SDK is installed"
 if [ "$SDK_AUTOLOAD" = true ] && [ ! -d "$PICO_SDK_PATH" ]; then
     echo "Cloning Raspberry Pi Pico SDK..."
     mkdir -p ${PICO_SDK_PATH%/*}
     git clone https://github.com/raspberrypi/pico-sdk.git "$PICO_SDK_PATH"
-
-    if [ -n "$ZSH_VERSION" ]; then
-        CONFIG_FILE="$HOME/.zshrc"
-    else
-        CONFIG_FILE="$HOME/.bashrc"
-    fi
-
-    echo 'export PICO_SDK_PATH='"$PICO_SDK_PATH" >> "$CONFIG_FILE"
-    source "$CONFIG_FILE"
 fi
+
+# Set the environment variable 
+echo "Set the environment variable PICO_SDK_PATH = $PICO_SDK_PATH"
+if [ -n "$ZSH_VERSION" ]; then
+    CONFIG_FILE="$HOME/.zshrc"
+else
+    CONFIG_FILE="$HOME/.bashrc"
+fi
+
+EXPORT_LINE='export PICO_SDK_PATH="'"$PICO_SDK_PATH"'"'
+
+if ! grep -Fxq "$EXPORT_LINE" "$CONFIG_FILE"; then
+  echo >> "$CONFIG_FILE"
+  echo "# Written by new_pico" >> "$CONFIG_FILE"
+  echo "$EXPORT_LINE" >> "$CONFIG_FILE"
+  source "$CONFIG_FILE"
+fi
+
+export PICO_SDK_PATH
 
 # Launch VSCode if requested
 if [ "$LAUNCH_VSCODE" = true ]; then
