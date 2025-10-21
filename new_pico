@@ -41,6 +41,7 @@ while [[ "$1" == -* ]]; do
       echo "Options:"
       echo "  -h, --help           Show this help text"
       echo "  -c, --use_c          Use C instead of C++ for the project"
+      echo "  -f, --force          Force cloning the template, even if it exists in the template path"
       echo "  -n, --no_vscode      Do not launch Visual Studio Code"
       echo "  -s, --no_sdk_check   Do not check Raspberry Pi Pico SDK availability"
       echo "  -t, --template_path  Set an alternative template path"
@@ -130,7 +131,7 @@ if [ "$SDK_AUTOLOAD" = true ] && [ ! -d "$PICO_SDK_PATH" ]; then
         CONFIG_FILE="$HOME/.bashrc"
     fi
 
-    echo 'export PICO_SDK_PATH=$HOME/pico/pico-sdk' >> "$CONFIG_FILE"
+    echo 'export PICO_SDK_PATH='"$PICO_SDK_PATH" >> "$CONFIG_FILE"
     source "$CONFIG_FILE"
 fi
 
