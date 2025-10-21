@@ -53,6 +53,7 @@ The tool checks availability of the SDK and if not available clones it to the di
 | USE_CPP         | use C++ (on) or C (off)             |    true |
 | LAUNCH_VSCODE   | launch VSCode with the project      |    true |
 | FORCE_CLONE     | reload the github repo              |   false |
+| README_INFO     | The text for the new README.md file |   false |
 
 ## 🔧 Workflow example
 
