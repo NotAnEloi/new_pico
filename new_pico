@@ -31,6 +31,10 @@ while [[ "$1" == -* ]]; do
       TEMPLATE_REPO="$1"
       shift
       ;;
+    -s|--no_sdk_check)
+      SDK_AUTOLOAD=false
+      shift
+      ;;
     -h|--help)
       echo "Usage: new_pico [options] <project_name>"
       echo ""
@@ -38,6 +42,7 @@ while [[ "$1" == -* ]]; do
       echo "  -h, --help           Show this help text"
       echo "  -c, --use_c          Use C instead of C++ for the project"
       echo "  -n, --no_vscode      Do not launch Visual Studio Code"
+      echo "  -s, --no_sdk_check   Do not check Raspberry Pi Pico SDK availability"
       echo "  -t, --template_path  Set an alternative template path"
       exit 0
       ;;
@@ -54,7 +59,6 @@ if [ -d "$NEW_PROJECT" ]; then
   echo "Project '$NEW_PROJECT' already exists. Aborting."
   exit 1
 fi
-
 
 # Check for project name
 if [ -z "$1" ]; then
@@ -108,6 +112,22 @@ rm -rf .git
 git init
 git add .
 git commit -m "New project $NEW_PROJECT started. Initial commit."
+
+# Verify the Raspberry Pi Pico SDK is installed
+if [ "$SDK_AUTOLOAD" = true ] && [ ! -d "$PICO_SDK_PATH" ]; then
+    echo "Cloning Raspberry Pi Pico SDK..."
+    mkdir -p ${PICO_SDK_PATH%/*}
+    git clone https://github.com/raspberrypi/pico-sdk.git "$PICO_SDK_PATH"
+
+    if [ -n "$ZSH_VERSION" ]; then
+        CONFIG_FILE="$HOME/.zshrc"
+    else
+        CONFIG_FILE="$HOME/.bashrc"
+    fi
+
+    echo 'export PICO_SDK_PATH=$HOME/pico/pico-sdk' >> "$CONFIG_FILE"
+    source "$CONFIG_FILE"
+fi
 
 # Launch VSCode if requested
 if [ "$LAUNCH_VSCODE" = true ]; then

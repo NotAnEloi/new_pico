@@ -8,12 +8,14 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 - Clones a Pico project template
 - Renames internal references
 - Initializes a fresh Git repo
+- Verifies the Raspberry Pi Pico SDK is available and in the correct path
 - Configures the build system (CMake)
 - Opens the project in VSCode
 
 ## 📦 Requirements
 
-- Raspberry Pi Pico SDK installed
+- A C/C++ compiler installed and configured correctly. (arm-none-eabi-g++ may require attention)
+- (Raspberry Pi Pico SDK installed *NO LONGER REQUIRED*)
 - VSCode installed
 - Template repo available at `~/Projects/pico-project-template` (or modify the script to point elsewhere)
 - `new_pico.cfg` A basic configuration file (described below) 
@@ -32,6 +34,7 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 | `--force`          | `-f`  | Force cloning the git repository even       |
 |                    |       |  it exists.                                 |
 | `--no_vscode`      | `-n`  | Do not launch Visual Studio Code            |
+| `--no_sdk_check`   | `-s`  | Do not check and install the SDK            |
 | `--template_path`  | `-t`  | Set an alternative template path            |
 
 ## 🔧 Files
@@ -43,6 +46,9 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 |-----------------|-------------------------------------|----------
 | TEMPLATE_REPO   | github repository                   |         |
 | TEMPLATE_CACHE  | local template repository directory |         |
+| TEMPLATE_FOLDER | name of the product directory       |         |
+| PICO_SDK_PATH   | path to the Raspberry Pi Pico SDK   |         |
+| SDK_AUTOLOAD    | check the SDK exists or clone it    |    true |
 | TEMPLATE_FOLDER | name of the product directory       |         |
 | USE_CPP         | use C++ (on) or C (off)             |    true |
 | LAUNCH_VSCODE   | launch VSCode with the project      |    true |
