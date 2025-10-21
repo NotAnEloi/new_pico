@@ -49,7 +49,6 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 | TEMPLATE_FOLDER | name of the product directory       |         |
 | PICO_SDK_PATH   | path to the Raspberry Pi Pico SDK   |         |
 | SDK_AUTOLOAD    | check the SDK exists or clone it    |    true |
-| TEMPLATE_FOLDER | name of the product directory       |         |
 | USE_CPP         | use C++ (on) or C (off)             |    true |
 | LAUNCH_VSCODE   | launch VSCode with the project      |    true |
 | FORCE_CLONE     | reload the github repo              |   false |
