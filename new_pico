@@ -101,6 +101,11 @@ find . -type f -exec sed -i "s/pico_project_template/$NEW_PROJECT/g" {} +
 find . -type f -exec sed -i "s/pico-project-template/$NEW_PROJECT/g" {} +
 rm -rf build
 
+# Rewrite a dummy README.md
+echo "# $NEW_PROJECT" > README.md
+echo "" >> README.md
+echo "$README_INFO" >> README.md
+
 # Rename workspace file
 mv pico-project_template.code-workspace "$NEW_PROJECT.code-workspace"
 
