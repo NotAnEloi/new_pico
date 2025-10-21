@@ -14,7 +14,8 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 
 ## 📦 Requirements
 
-- Raspberry Pi Pico SDK installed
+- A C/C++ compiler installed and configured correctly. (arm-none-eabi-g++ may require attention)
+- (Raspberry Pi Pico SDK installed *NO LONGER REQUIRED*)
 - VSCode installed
 - Template repo available at `~/Projects/pico-project-template` (or modify the script to point elsewhere)
 - `new_pico.cfg` A basic configuration file (described below) 
