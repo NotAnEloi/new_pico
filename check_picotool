@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+echo "Checking for picotool..."
+if ! command -v picotool  &> /dev/null; then
+    echo "Picotool not found: installing..."
+    git clone https://github.com/raspberrypi/picotool.git
+    cd picotool || { echo "Cloning picotool failed." 
+    }
+    mkdir build
+    cd build
+    cmake ..
+    make
+    sudo mv picotool /usr/local/bin/ || { echo "Moving picotool to /usr/local/bin/ failed." 
+    }
+    cd ../..
+    rm -rf picotool
+    echo "Picotool installed successfully."
+else
+    echo "Picotool is already installed."
+fi

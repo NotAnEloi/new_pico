@@ -14,6 +14,16 @@ A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Vis
 
 ## 📦 Requirements
 
+### Distribution-dependent 
+
+- cmake
+- gcc-arm-none-eabi 
+- libnewlib-arm-none-eabi (or equivalent)
+- libusb-1.0-0-dev
+- pkg-config
+
+### Other
+
 - A C/C++ compiler installed and configured correctly. (arm-none-eabi-gcc may require attention)
 - (Raspberry Pi Pico SDK installed *NO LONGER REQUIRED*) 
 The tool checks availability of the SDK and if not available clones it to the directory set in `new_pico.cfg`
