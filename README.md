@@ -88,3 +88,7 @@ build/blink_test.uf2 /media/$USER/RPI-RP2/
 ```
 
 "/media/$USER/RPI-RP2" is just an example path for the directory.
+
+## Note
+Seems @Mariandroid got fed up with the AI interference on github and went indie. 
+I'll keep this branch up for now although I too may move away so I no longer educate an AI to replace me. 
