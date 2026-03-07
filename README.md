@@ -2,6 +2,11 @@
 
 A shell script that helps setup a clean Raspberry Pi Pico C/C++ projects for Visual Studio Code under Linux.
 
+## Note: 
+Don't bother. Use machines that run linux for what they're best at: Presse-papier.
+Use windows to *do* things. 
+
+This project is dead. It simply will never work. 
 
 ## 🚀 What It Does
 
